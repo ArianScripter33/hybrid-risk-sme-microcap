@@ -66,3 +66,19 @@ Mide: **Eficiencia**. ¿Qué tan rentable es CADA unidad vendida?
 >
 > - Calcularemos `gross_margin` como métrica clave de calidad.
 > - Si `gross_margin` < 10% y OpEx es alto -> **ALERTA ROJA (Negocio Inviable)**.
+
+---
+
+## 3. Relación Crítica: COGS Escabilidad vs OpEx Fragilidad 📉
+
+### El Gasto y la "Muerte por Éxito"
+
+- **Escalando COGS:** En crecimiento explosivo, el COGS (Costo Variable) es el que drena la caja. Necesitas comprar más material **antes** de cobrar la venta. Cuanto más exitoso eres vendiendo, más rápido te quedas sin cash.
+- **OpEx como Lastre:** El OpEx (Costo Fijo) determina tu **Operating Leverage**.
+  - Si tus costos son mayormente fijos (mucho OpEx), un pequeño bajón en ventas destruye tu utilidad rápidamente.
+  - Es el riesgo de las empresas con infraestructura pesada pero pocas ventas.
+
+> **Feature para el Motor:** Calcularemos el ratio **OpEx / Revenue**.
+>
+> - Si es > 50%: La empresa es **frágil** (un mes malo la mata).
+> - Si es < 20%: La empresa es **eficiente** y escalable.
