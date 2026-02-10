@@ -143,6 +143,14 @@ Alpha Tech tiene:
 
 **Veredicto:** En el Mes 3, la empresa ha generado $100,000 en ventas totales (en papel), pero ha "quemado" toda su caja produciendo. **Si no consigue un préstamo hoy, no puede fabricar el Mes 4 aunque tenga miles de clientes pidiendo el producto.**
 
+### 7.1 ¿Cómo se previene la Muerte por Éxito? 🛡️
+
+No basta con "planificar" el CCC; se trata de **financiar el Gap**. La solución no es "vender menos", sino:
+
+- **Factoring:** Vender tus facturas por cobrar a un banco para tener el cash hoy (sacrificando un pequeño %).
+- **Líneas de Crédito Revolventes:** Créditos que se activan automáticamente cuando suben las ventas para cubrir el COGS.
+- **Negociación con Proveedores (DPO):** Intentar pagar a tus proveedores a 90 días para que el dinero salga al mismo tiempo que entra el de tus clientes.
+
 ---
 
 ## 8. El Contrato: "Use of Proceeds" y Covenants 📜

@@ -92,12 +92,31 @@ $$LTV\ (\%) = \frac{Monto\ Préstamo}{Valor\ de\ la\ Garantía}$$
 
 ---
 
-## 📝 6. Clarificaciones Finales
+## 🚀 6. Métricas Maestras y Prevención
+
+*Basado en [07-Derived-Metrics-Dictionary.md](./07-Derived-Metrics-Dictionary.md)*
+
+### ¿Cómo prevenir la Muerte por Éxito?
+
+1. **Factoring:** Cash hoy por facturas mañana.
+2. **Líneas Revolventes:** Crédito flexible para COGS.
+3. **DPO Negotiation:** Pagar más tarde para empatar con el cobro.
+
+### El "Cheat Sheet" del Motor
+
+- **DSO Alto:** El cliente pierde poder de cobro. **Riesgo.**
+- **Gross Margin Bajo:** Suben costos o bajas precios. **Alerta.**
+- **OpEx crecido:** Ineficiencia operativa. **Peligro.**
+
+---
+
+## 📝 7. Clarificaciones Finales
 
 *Basado en [06-Pending-Clarifications.md](./06-Pending-Clarifications.md)*
 
 - **Cash vs Cash Flow:** El Cash es la foto del banco hoy; el Cash Flow es la película de cuánto dinero real se movió en el mes.
 - **Intangibles (Patentes):** Casi lo opuesto a la liquidez. Son valiosos en el futuro, pero valen poco como garantía inmediata en caso de quiebra.
+- **CCC (Cash Conversion Cycle):** La métrica que mide la velocidad del dinero en el negocio.
 
 ---
 
