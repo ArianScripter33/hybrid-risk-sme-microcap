@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field, model_validator
-from typing import Optional
 
 class BalanceSheet(BaseModel):
     """
@@ -112,3 +111,160 @@ class BalanceSheet(BaseModel):
                 f"Liabs+Equity (${liabs_equity:,.2f}). Diff: ${diff:,.2f}"
             )
         return self
+
+    # --------------------------------------------------------- 
+    #  INCOME STATEMENT SECTION (P&L)
+    # ---------------------------------------------------------
+
+class IncomeStatement(BaseModel):
+    """
+    Estado de Resultados (P&L).
+    Representa la película de ingresos, gastos y rentabilidad durante un período.
+    """
+    
+    # ---------------------------------------------------------
+    # INGRESOS Y COSTOS DIRECTOS (TOP LINE)
+    # ---------------------------------------------------------
+    
+    revenue: float = Field(..., description="Ventas totales (Ingresos)")
+    cost_of_goods_sold: float = Field(0.0, description="Costo de Ventas (COGS)")
+    
+    @property
+    def gross_profit(self) -> float:
+        """Dinero puro que sobra para pagar la operación."""
+        return self.revenue - self.cost_of_goods_sold
+
+    # ---------------------------------------------------------
+    # GASTOS OPERATIVOS (OpEx)
+    # ---------------------------------------------------------
+    
+    selling_general_administrative: float = Field(0.0, description="Gastos de Venta, Generales y Admin (SG&A)")
+    research_and_development: float = Field(0.0, description="Investigación y Desarrollo (R&D)")
+    depreciation_amortization: float = Field(0.0, description="Depreciación y Amortización (D&A)")
+    
+    @property
+    def total_operating_expenses(self) -> float:
+        """La carga fija o semifija para mantener el negocio corriendo. Total OpEx = SG&A + R&D + D&A"""
+        return (self.selling_general_administrative + 
+                self.research_and_development + 
+                self.depreciation_amortization)
+
+    @property
+    def operating_income(self) -> float:
+        """Utilidad Operativa (EBIT). EBIT stands for Earnings Before Interest and Taxes. Lo que realmente genera el negocio. Operating Income = Gross Profit - Total Operating Expenses"""
+        return self.gross_profit - self.total_operating_expenses
+
+    @property
+    def ebitda(self) -> float:
+        """EBITDA stands for Earnings Before Interest, Taxes, Depreciation, and Amortization. Proxy de generación de caja de la operación pura. EBITDA = Operating Income (EBIT) + Depreciation & Amortization"""
+        return self.operating_income + self.depreciation_amortization
+
+    # ---------------------------------------------------------
+    # FINANCIAMIENTO E IMPUESTOS (BOTTOM LINE)
+    # ---------------------------------------------------------
+    
+    interest_expense: float = Field(0.0, description="Gastos por intereses financieros")
+    other_income_expense: float = Field(0.0, description="Otros ingresos/gastos no operativos")
+    income_tax: float = Field(0.0, description="Impuestos sobre la renta")
+    
+    @property
+    def operating_income_before_tax(self) -> float:
+        """EBT (Earnings Before Tax) = Operating Income - Interest Expense + Other Income/Expense"""
+        return self.operating_income - self.interest_expense + self.other_income_expense
+
+    @property
+    def net_income(self) -> float:
+        """Utilidad Neta (The Bottom Line). Net Income = Operating Income - Interest Expense + Other Income/Expense - Income Tax"""
+        return self.operating_income - self.interest_expense + self.other_income_expense - self.income_tax
+
+    # ---------------------------------------------------------
+    # MÉTRICAS DE EFICIENCIA DERIVADAS
+    # ---------------------------------------------------------
+    
+    @property
+    def gross_margin_pct(self) -> float:
+        """Porcentaje de margen bruto."""
+        if self.revenue == 0:
+            return 0.0
+        return (self.gross_profit / self.revenue) * 100
+
+    @property
+    def ebitda_margin_pct(self) -> float:
+        """Porcentaje de margen EBITDA."""
+        if self.revenue == 0:
+            return 0.0
+        return (self.ebitda / self.revenue) * 100
+
+    # --------------------------------------------------------- 
+    #  CASH FLOW STATEMENT SECTION
+    # ---------------------------------------------------------
+
+class CashFlowStatement(BaseModel):
+    """
+    Estado de Flujo de Efectivo.
+    La verdad absoluta de cuánto dinero entró y salió de la cuenta bancaria.
+    """
+    
+    # ---------------------------------------------------------
+    # 1. OPERATING ACTIVITIES (El motor del negocio)
+    # ---------------------------------------------------------
+    
+    net_income_starting_line: float = Field(..., description="Utilidad Neta (Punto de partida del Income Statement)")
+    depreciation_amortization_addback: float = Field(0.0, description="D&A agregada de vuelta (Gasto no efectivo)")
+    change_in_working_capital: float = Field(0.0, description="Cambios en activos y pasivos circulantes (Cuentas por cobrar, inventario)")
+    other_operating_cash_flow: float = Field(0.0, description="Otros flujos operativos")
+    
+    @property
+    def cash_from_operations(self) -> float:
+        """CFO stands for Cash From Operations. Cuánto efectivo generó la operación diaria."""
+        return (self.net_income_starting_line + 
+                self.depreciation_amortization_addback + 
+                self.change_in_working_capital + 
+                self.other_operating_cash_flow)
+
+    # ---------------------------------------------------------
+    # 2. INVESTING ACTIVITIES (Comprando o vendiendo el futuro)
+    # ---------------------------------------------------------
+    
+    capital_expenditures: float = Field(..., description="CapEx: Inversión en equipo, maquinaria, software")
+    other_investing_cash_flow: float = Field(0.0, description="Otras inversiones (Venta de activos, comprar bonos)")
+    
+    @property
+    def cash_from_investing(self) -> float:
+        """CFI stands for Cash From Investing. Efectivo gastado o recibido por inversiones. Usualmente es negativo."""
+        # Se asume que en el JSON de entrada las salidas (compras) vienen como números negativos.
+        return self.capital_expenditures + self.other_investing_cash_flow
+
+    # ---------------------------------------------------------
+    # 3. FINANCING ACTIVITIES (Los bancos y los inversores)
+    # ---------------------------------------------------------
+    
+    debt_issued_repaid: float = Field(0.0, description="Préstamos recibidos (positivo) o pagados (negativo)")
+    dividends_paid: float = Field(0.0, description="Dividendos pagados a accionistas (negativo)")
+    other_financing_cash_flow: float = Field(0.0, description="Otros flujos de financiamiento")
+    
+    @property
+    def cash_from_financing(self) -> float:
+        """CFF stands for Cash From Financing. El movimiento de dinero con los que fondean la empresa."""
+        return self.debt_issued_repaid + self.dividends_paid + self.other_financing_cash_flow
+
+    # ---------------------------------------------------------
+    # TOTALES & DERIVADAS (Net Change & FCF)
+    # ---------------------------------------------------------
+    
+    @property
+    def net_change_in_cash(self) -> float:
+        """El cambio real absoluto en la cuenta bancaria este período."""
+        return self.cash_from_operations + self.cash_from_investing + self.cash_from_financing
+
+    @property
+    def free_cash_flow(self) -> float:
+        """
+        FCF stands for Free Cash Flow. Free Cash Flow (El Santo Grial).
+        El efectivo libre después de operar y mantener la infraestructura.
+        Usamos `abs()` previendo que K.I.M.E.R.A (LLM) pueda extraer el CapEx 
+        como positivo o negativo. CapEx siempre resta efectivo al CFO.
+        """
+        return self.cash_from_operations - abs(self.capital_expenditures)
+
+

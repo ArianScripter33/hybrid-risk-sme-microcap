@@ -6,7 +6,7 @@ Este documento define las "Features" que nuestro Módulo de Cálculo (Python) de
 
 ## 1. ¿Cómo se previene la Muerte por Éxito? 🛡️
 
-No basta con "planificar" el CCC; se trata de **financiar el Gap**. Si tu sistema detecta que una empresa tiene un CCC de 90 días, la solución no es "vender menos", sino:
+No basta con "planificar" el CCC; se trata de **financiar el Gap** (el desfase temporal entre que sale dinero para pagar proveedores y entra dinero por ventas cobradas). Si tu sistema detecta que una empresa tiene un CCC de 90 días, la solución no es "vender menos", sino:
 
 * **Factoring:** Vender tus facturas por cobrar a un banco para tener el cash hoy (sacrificando un pequeño %).
 * **Líneas de Crédito Revolventes:** Créditos que se activan automáticamente cuando suben las ventas para cubrir el COGS.

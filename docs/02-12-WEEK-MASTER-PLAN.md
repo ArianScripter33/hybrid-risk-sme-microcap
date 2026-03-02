@@ -4,6 +4,15 @@
 > **Cadencia:** 5 días/semana. Cada día = ~4-6 horas de trabajo enfocado.
 > **Regla de Oro:** Al final de cada día, debes tener un commit con código funcional o un artefacto tangible.
 
+### ⚠️ Ajuste de orden recomendado (Feb 2026)
+**Orden original:** Fase 0 → 1 → 2 (PDFs) → 3 (ML) → 4-7
+**Orden ajustado:** Fase 0 → 1 → **3 (ML)** → **2 (PDFs)** → 4-7
+
+**Razón:** El motor de riesgo debe funcionar impecablemente con JSONs manuales ANTES de invertir en PDF ingestion. Docling + table extraction + schema normalization es un proyecto entero en sí mismo. Si la Fase 3 funciona con datos manuales de Koss Corp, ENTONCES conectas la ingesta automática. Si inviertes 2 semanas en Docling y el motor aún no calcula bien, perdiste tiempo.
+
+### ⚠️ Nota sobre Fase 5 (Agente CFO, Semana 9)
+Antes de implementar el agente desde cero, evaluar si componentes de K.I.M.E.R.A. (DS-STAR, hallucination guards, prompt patterns) pueden reutilizarse. El Librarian Protocol y el sistema de verificación de hechos ya existen en ese codebase.
+
 ---
 
 ## FASE 0: Fundamentos Financieros + Setup (Semana 1)
@@ -642,6 +651,7 @@ Convertir el calculador de ratios en un motor de decisión con capacidad predict
 3. Problema: no tenemos labels (default/no-default). Solución para MVP:
    - Usar Z-Score zone como proxy de label (Distress = 1, Safe = 0).
    - Esto es circular pero sirve para construir la infraestructura.
+   - **Para CV/entrevista:** Describir como "infraestructura de scorecard con monotonic constraints" — no como "modelo ML de scoring crediticio" (los labels son proxy, no reales). La honestidad sobre limitaciones demuestra más madurez que inflar el claim.
 
 **Entregable:** Scorecard básico entrenado (infraestructura, no accuracy).
 
