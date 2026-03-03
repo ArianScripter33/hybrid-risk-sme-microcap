@@ -265,7 +265,7 @@ print(f'Balanced: {bs.total_assets == bs.total_liabilities + bs.total_equity}')
 
 ## Related Projects
 
-- **[K.I.M.E.R.A.](https://github.com/arianscripter33/kimera-research)** — GraphRAG research agent with hierarchical retrieval, multimodal analysis, and metacognitive traces. Powers the document understanding layer.
+- **[K.I.M.E.R.A.](https://github.com/ArianScripter33/Research-Repo)** — GraphRAG research agent with hierarchical retrieval, multimodal analysis, and metacognitive traces. Powers the document understanding layer.
 - **SAVI-Banxico** — Hackathon submission for Banco de México's SPEI infrastructure challenge.
 
 ---
